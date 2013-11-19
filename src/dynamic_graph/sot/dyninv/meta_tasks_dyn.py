@@ -100,21 +100,6 @@ class MetaTaskDynPosture(object):
     def ref(self,v):
         self.featureDes.errorIN.value = v
 
-    def gotoq(self,gain=None,**kwargs):
-        act=list()
-        if MetaTaskDynPosture.nbDof==None:
-            MetaTaskDynPosture.nbDof = len(self.feature.errorIN.value)
-        qdes = zeros((MetaTaskDynPosture.nbDof,1))
-        for n,v in kwargs.items():
-            r = self.postureRange[n]
-            act += r
-            if isinstance(v,matrix): qdes[r,0] = vectorToTuple(v)
-            if isinstance(v,ndarray): qdes[r,0] = vectorToTuple(v)
-            else: qdes[r,0] = v
-        self.ref = vectorToTuple(qdes)
-        self.feature.selec.value = toFlags(act)
-        setGain(self.gain,gain)
-
 
 class MetaTaskDynCom(object):
     def __init__(self,dyn,dt,name="com"):
